@@ -1,0 +1,209 @@
+@import "./reset.css";
+
+:root {
+   /*Global variable*/
+   --app-dark-bg: #282828;
+   --app-blue-bg: #3a43f0;
+   --app-lessdark-bg: #3f3f3f;
+   --app-morelessdark-bg: #989696;
+   --app-ligh-text: #f0ffff;
+   --app-primarybotton-color: #4f8f0b;
+   --app-errormessage-color: rgb(233, 91, 51);
+   --app-primarybotton-hover-color: rgb(15, 107, 11)
+}
+
+body {
+   background-color: var(--app-dark-bg);
+   border: 1px solid #000;
+   padding: 10px;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                    Containers                         */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+.container {
+   width: min(100% - 30px, 1080px);
+   height: 100dvh;
+   margin-inline: auto;
+}
+
+.flex {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   text-align: center;
+}
+
+.flex2 {
+   display: flex;
+   justify-content: left;
+   flex-direction: row;
+   align-items: center;
+   text-align: left;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                     Main                              */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+.container-content {
+   width: 60%;
+   height: 100px;
+   margin-bottom: 10px;
+   outline: 2px dashed rgb(205, 33, 148);
+}
+
+.box {
+   width: 100%;
+   height: 450px;
+   min-height: 400px;
+   display: flex;
+   flex-direction: row-reverse;
+   flex-wrap: wrap;
+   background: transparent;
+   line-height: 32;
+   outline: 2px dashed rgb(205, 33, 148);
+}
+
+.div-contact {
+   line-height: 30px;
+   width: max-content;
+   height: 100px;
+   background-color: var(--app-lessdark-bg);
+   border: 1px solid var(--app-lessdark-bg);
+   margin: 5px;
+   padding: 10px;
+   cursor: pointer;
+}
+
+.div-contact:hover {
+   border-color: var(--app-primarybotton-color);
+}
+
+.div-contact p {
+   color: var(--app-morelessdark-bg);
+}
+
+.contacts-saved {
+   margin-top: 20px;
+   width: 100%;
+   height: 40px;
+   line-height: 20px;
+   justify-content: center;
+   flex-direction: row;
+   align-items: center;
+   text-align: center;
+   outline: 2px dashed rgb(205, 33, 148);
+}
+
+.contacts-saved p {
+   color: var(--app-primarybotton-color);
+   outline: 2px dashed rgb(205, 33, 148);
+}
+
+@keyframes anim {
+   from {
+      opacity: 0.5;
+      translate: 0 2px;
+   }
+
+   to {
+      opacity: 0.9;
+      translate: 0 0px;
+   }
+}
+
+.animate {
+   animation: anim 0.3s ease-in;
+}
+
+.flex3 {
+   display: flex;
+   flex-direction: flex-end;
+   flex-wrap: wrap-reverse;
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*                   Form                                */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+h2 {
+   margin-bottom: 20px;
+   font-size: 35px;
+   color: var(--app-ligh-text);
+   justify-content: center;
+   display: inline;
+   align-items: center;
+   text-align: center;
+}
+
+.form-contact {
+   width: 100%;
+}
+
+.input-container {
+   width: 100%;
+   position: relative;
+}
+
+input[type="text"] {
+   width: 75%;
+   height: 40px;
+   justify-content: left;
+   text-align: left;
+   align-items: left;
+   padding: 10px 10px;
+   font-size: 16px;
+   color: var(--app-dark-blue-bg);
+   border-radius: 5px;
+   background-color: transparent;
+}
+
+.error-message {
+   width: 100%;
+   color: var(--app-errormessage-color);
+   display: none;
+   margin: 20px 10px 20px 0px;
+   height: 40px;
+   padding: 10px 10px;
+   font-size: 12px;
+   margin-top: 0px;
+   padding-top: 0px;
+   top: 90%;
+   position: absolute;
+}
+
+#contact-info {
+   color: var(--app-morelessdark-bg);
+   background-color: var(--app-lessdark-bg);
+   border: 1px solid var(--app-lessdark-bg);
+}
+
+input[type="text"]:hover {
+   border-color: var(--app-primarybotton-color);
+}
+
+input[type="text"]::placeholder {
+   color: var(--app-morelessdark-bg);
+}
+
+input[type="button"] {
+   width: 15%;
+   height: 40px;
+   margin: 20px 0px 20px 10px;
+   text-align: center;
+   background-color: var(--app-primarybotton-color);
+   border-radius: 6px;
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 26px 30px -10px, rgba(0, 0, 0, 0.1) 0px 16px 10px -10px;
+   font-size: 16px;
+   font-weight: 600;
+   letter-spacing: 0.2px;
+   transition: all 0.25s ease-in-out;
+   color: var(--app-ligh-text);
+   cursor: pointer;
+}
+
+input[type="button"]:hover {
+   background-color: var(--app-primarybotton-hover-color);
+}
