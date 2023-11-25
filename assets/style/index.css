@@ -51,7 +51,6 @@ body {
    width: 60%;
    height: 100px;
    margin-bottom: 10px;
-   outline: 2px dashed rgb(205, 33, 148);
 }
 
 .box {
@@ -63,7 +62,6 @@ body {
    flex-wrap: wrap;
    background: transparent;
    line-height: 32;
-   outline: 2px dashed rgb(205, 33, 148);
 }
 
 .div-contact {
@@ -94,12 +92,10 @@ body {
    flex-direction: row;
    align-items: center;
    text-align: center;
-   outline: 2px dashed rgb(205, 33, 148);
 }
 
 .contacts-saved p {
    color: var(--app-primarybotton-color);
-   outline: 2px dashed rgb(205, 33, 148);
 }
 
 @keyframes anim {
@@ -150,6 +146,7 @@ h2 {
 input[type="text"] {
    width: 75%;
    height: 40px;
+   margin-right: 10px;
    justify-content: left;
    text-align: left;
    align-items: left;

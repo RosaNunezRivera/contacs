@@ -29,9 +29,7 @@ let emailUser;
 
 onEvent(createButton, 'click', function (e) {
     e.preventDefault();
-
     AddContact();
-
 });
 
 /*-------------------------------------------------------*/
@@ -39,17 +37,21 @@ onEvent(createButton, 'click', function (e) {
 /*-------------------------------------------------------*/
 function AddContact() {
     try {
-        mensaggeError.style.display = 'none';
-        const { nameUser, cityUser, emailUser } = getContactInfo();
-        const newContact = new Contact(nameUser, cityUser, emailUser);
-        master.unshift(newContact);
-        listContacts();
-        displayContactsSaved();
+        if (master.length <= 10) {
+            mensaggeError.style.display = 'none';
+            const { nameUser, cityUser, emailUser } = getContactInfo();
+            const newContact = new Contact(nameUser, cityUser, emailUser);
+            master.unshift(newContact);
+            listContacts();
+            displayContactsSaved();
+        } else {
+            throw new Error('The containter is full, please detele some one contacts');
+        }
+
     } catch (error) {
         displayError(error.message);
     }
 }
-
 /*-------------------------------------------------------*/
 /*  Function: Display error                              */
 /*-------------------------------------------------------*/
@@ -68,10 +70,6 @@ function getContactInfo() {
     nameUser = cleanText[0].trim();
     cityUser = cleanText[1].trim();
     emailUser = cleanText[2].toLowerCase().trim();
-
-    console.log(`name: ${nameUser}`);
-    console.log(`City: ${cityUser}`);
-    console.log(`email: ${emailUser}`);
 
     if (nameUser.length === 0 || cityUser.length === 0 || emailUser.length === 0) {
         throw new Error('Name, City, and email are required');
@@ -115,13 +113,11 @@ function displayContactsSaved() {
 
 
 function getContact(divId) {
-    //Getting the id div
-    const numerDiv = parseInt(divId.split('-')[1]);
-
-    if (!isNaN(numerDiv) && numerDiv >= 0 && numerDiv < master.length) {
-        return numerDiv;
+    const index = parseInt(divId.split('-')[1]);
+    if (!isNaN(index) && index >= 0 && index < master.length) {
+        return index;
     } else {
-        console.error('Índice no válido');
+        console.error('Invalid Index');
         return -1;
     }
 }
@@ -129,13 +125,20 @@ function getContact(divId) {
 /*-----------------------------------------------------------*/
 /*  Function: Implemented even lister to delete the contact  */
 /*-----------------------------------------------------------*/
-const divs = select('.div-contact');
-onEvent(divs, "click", function () {
-    let id = getContact(divs);
+const divs = selectAll('.div-contact');
+divs.forEach(div => {
+    onEvent(div, "click", function (e) {
+        e.preventDefault();
+        const index = getContact(e.currentTarget.id);
 
-    master.splice(id, 1);
-    listContacts();
-    displayContactsSaved();
+        console.log("Attaching event listener to:", div);
+        console.log("Clicked div id:", e.currentTarget.id);
+        console.log("Contact id:", id);
 
+        if (index !== -1) {
+            master.splice(index, 1);
+            listContacts();
+            displayContactsSaved();
+        }
+    });
 });
-
