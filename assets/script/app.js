@@ -134,7 +134,6 @@ function listContacts() {
     }
 }
 
-
 /*-----------------------------------------------------------*/
 /*  Function: Delete contact clicked                         */
 /*-----------------------------------------------------------*/
@@ -151,8 +150,8 @@ function deleteContact(contact) {
 /*  Function: To Display counter of contacts saved       */
 /*-------------------------------------------------------*/
 const contactsSavedDiv = select('.container-counter');
-let contactasSaved = 0;
+let contactsSaved = 0;
 function displayContactsSaved() {
-    contactasSaved = master.length;
+    contactsSaved = master.length;
     contactsSavedDiv.innerHTML = `<p><strong>Contacst Saved: </strong> ${contactasSaved}</p>`;
 }
