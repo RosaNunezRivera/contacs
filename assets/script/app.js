@@ -11,14 +11,14 @@ import {
 //Import class 
 import {
     Contact
-} from "./contact.js";
+} from "../script/contact.js";
 
 /*--------------------------------------------------------------------------------*/
 /* Function: Click Ad button                                                  */
 /*--------------------------------------------------------------------------------*/
 const createButton = select('.add-button');
 const mensaggeError = select('.error-message');
-const gridContainer = select('.box');
+const gridContainer = select('.container-div-list');
 
 //Array to save contacts 
 const master = [];
@@ -37,7 +37,7 @@ onEvent(createButton, 'click', function (e) {
 /*-------------------------------------------------------*/
 function AddContact() {
     try {
-        if (master.length <= 10) {
+        if (master.length <= 15) {
             mensaggeError.style.display = 'none';
             const { nameUser, cityUser, emailUser } = getContactInfo();
             const newContact = new Contact(nameUser, cityUser, emailUser);
@@ -65,19 +65,48 @@ function displayError(errorMessage) {
 /*-------------------------------------------------------*/
 const contactUser = selectById('contact-info');
 function getContactInfo() {
-    let cleanText = contactUser.value.trim().split(',');
+    let commaCount = -1;
+    let cleanText;
 
-    nameUser = cleanText[0].trim();
-    cityUser = cleanText[1].trim();
-    emailUser = cleanText[2].toLowerCase().trim();
+    if (contactUser.value.trim().length === 0) {
+        commaCount = -1;
+    } else {
+        if (!contactUser.value.includes(',')) {
+            cleanText = contactUser.value; // Corregir la asignación aquí
+            commaCount = 0;
+        } else {
+            cleanText = contactUser.value.trim().split(',');
+            commaCount = cleanText.length - 1;
 
-    if (nameUser.length === 0 || cityUser.length === 0 || emailUser.length === 0) {
-        throw new Error('Name, City, and email are required');
+            if (commaCount === 1 && cleanText[1] === '') {
+                commaCount = 0;
+            }
+            if (commaCount === 1 && cleanText[2] === '') {
+                commaCount = 0;
+            }
+            if (commaCount === 2 && cleanText[2] === '') {
+                commaCount = 1;
+            }
+        }
     }
 
-    return { nameUser, cityUser, emailUser };
+    if (commaCount !== 2) {
+        if (commaCount === -1) {
+            throw new Error('Please, enter name, city, and email');
+        } else if (commaCount === 0) {
+            throw new Error('Please, enter a valid city and email');
+        } else if (commaCount === 1) {
+            throw new Error('Please, enter a valid email like email@domain.com');
+        } else if (commaCount > 2) {
+            throw new Error('Ops! please, enter three values name, city, and email');
+        }
+    } else {
+        nameUser = cleanText[0].trim();
+        cityUser = cleanText[1].trim();
+        emailUser = cleanText[2].toLowerCase().trim();
+        return { nameUser, cityUser, emailUser };
+    }
 }
-
 
 /*-------------------------------------------------------*/
 /*  Function: Get List of contacts                      */
@@ -85,60 +114,45 @@ function getContactInfo() {
 function listContacts() {
     gridContainer.innerHTML = '';
     for (let i = 0; i < master.length; i++) {
-        const contact = master[i];
+        let currentContact = master[i];
         const contactDiv = document.createElement("div");
-        contactDiv.id = 'div-' + i;
-        contactDiv.className = 'div-contact';
+        contactDiv.classList.add('div-contact');
         contactDiv.classList.add('animate');
 
+        contactDiv.innerHTML = `<p><strong>Name:</strong> ${currentContact.getName()}</p>`;
+        contactDiv.innerHTML += `<p><strong>City:</strong> ${currentContact.getCity()}</p>`;
+        contactDiv.innerHTML += `<p><strong>Email:</strong> ${currentContact.getEmail()}</p>`;
 
-        contactDiv.innerHTML = `<p><strong>Name:</strong> ${contact.getName()}</p>`;
-        contactDiv.innerHTML += `<p><strong>City:</strong> ${contact.getCity()}</p>`;
-        contactDiv.innerHTML += `<p><strong>Email:</strong> ${contact.getEmail()}</p>`;
+
+        // Event listener to delete the current contact 
+        contactDiv.addEventListener('click', function () {
+            setInterval(contactDiv.classList.add('clicked'), 2000);
+            deleteContact(currentContact);
+        });
 
         gridContainer.appendChild(contactDiv);
+    }
+}
 
+
+/*-----------------------------------------------------------*/
+/*  Function: Delete contact clicked                         */
+/*-----------------------------------------------------------*/
+function deleteContact(contact) {
+    let index = master.indexOf(contact);
+    if (index !== -1) {
+        master.splice(index, 1);
+        listContacts();
+        displayContactsSaved();
     }
 }
 
 /*-------------------------------------------------------*/
-/*  Function: To Display contacts saved                  */
+/*  Function: To Display counter of contacts saved       */
 /*-------------------------------------------------------*/
-const contactsSavedDiv = select('.contacts-saved');
+const contactsSavedDiv = select('.container-counter');
 let contactasSaved = 0;
 function displayContactsSaved() {
     contactasSaved = master.length;
     contactsSavedDiv.innerHTML = `<p><strong>Contacst Saved: </strong> ${contactasSaved}</p>`;
 }
-
-
-function getContact(divId) {
-    const index = parseInt(divId.split('-')[1]);
-    if (!isNaN(index) && index >= 0 && index < master.length) {
-        return index;
-    } else {
-        console.error('Invalid Index');
-        return -1;
-    }
-}
-
-/*-----------------------------------------------------------*/
-/*  Function: Implemented even lister to delete the contact  */
-/*-----------------------------------------------------------*/
-const divs = selectAll('.div-contact');
-divs.forEach(div => {
-    onEvent(div, "click", function (e) {
-        e.preventDefault();
-        const index = getContact(e.currentTarget.id);
-
-        console.log("Attaching event listener to:", div);
-        console.log("Clicked div id:", e.currentTarget.id);
-        console.log("Contact id:", id);
-
-        if (index !== -1) {
-            master.splice(index, 1);
-            listContacts();
-            displayContactsSaved();
-        }
-    });
-});

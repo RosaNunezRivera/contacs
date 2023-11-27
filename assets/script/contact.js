@@ -1,6 +1,6 @@
 'use strict';
 
-//Class Shapes
+//Class Contact
 class Contact {
     #name;
     #city;
