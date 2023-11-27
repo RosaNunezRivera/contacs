@@ -44,7 +44,7 @@ function filterArray(array, callback) {
     return array.filter(callback);
 }
 
-//Export functions
+//Export functions to use in add file
 export {
     onEvent,
     select,

@@ -5,7 +5,6 @@ import {
     onEvent,
     select,
     selectById,
-    selectAll,
 } from "./utils.js";
 
 //Import class 
